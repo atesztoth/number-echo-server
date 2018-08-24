@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "dev": "./node_modules/.bin/nodemon server.js"
+  },
+  "dependencies": {
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "debug": "^3.1.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3",
+    "should": "^13.2.3",
+    "supertest": "^3.1.0"
+  }
+}
