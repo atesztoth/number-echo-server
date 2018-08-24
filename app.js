@@ -10,7 +10,4 @@ app.use(async (ctx, next) => {
 });
 
 app.use(routes);
-
-debug('Server started!');
-
 module.exports = app;
