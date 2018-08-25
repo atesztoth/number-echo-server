@@ -9,18 +9,20 @@ const numbers = {
   7: 'seven',
   8: 'eight',
   9: 'nine',
+};
+
+const specials = {
   10: 'ten',
+  11: 'eleven',
+  12: 'twelve',
+  13: 'thirteen',
+  15: 'fifteen',
   20: 'twenty',
   30: 'thirty',
   40: 'fourty',
   50: 'fifty',
-  60: 'sixty',
-  70: 'seventy',
-  80: 'eighty',
-  90: 'ninety'
 };
 
-const specials = { 11: 'eleven', 12: 'twelve', 13: 'thirteen' };
 const groupNames = ['thousand', 'hundred'];
 
 module.exports = { numberTranslations: numbers, specialNumbers: specials, groupNames: groupNames };

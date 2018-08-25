@@ -30,6 +30,7 @@ async function answerer(ctx) {
     ctx.status = 200;
     ctx.body = { result };
   } catch (e) {
+    debug(e);
     const code = e.code || 500;
     ctx.status = code;
     ctx.body = utils.createErrorResponse(code, e.message);
