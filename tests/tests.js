@@ -128,5 +128,14 @@ describe('TESTS', function () {
 
       message.should.be.eql('This was not a number.');
     });
+
+    it('checks for too big number', async () => {
+      const { body: { message } } = await request
+        .get('/translate/10000')
+        .expect('Content-Type', /json/)
+        .expect(400);
+
+      message.should.be.eql('Sorry, we only support numbers till 9999.');
+    });
   });
 });

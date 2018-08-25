@@ -25,7 +25,7 @@ async function sayHello(ctx) {
 async function answerer(ctx) {
   try {
     const { params: { number } } = ctx;
-    checkIfNumber(number);
+    checkNumber(number);
     const result = dataHandler.translateNumber(number);
     ctx.status = 200;
     ctx.body = { result };
@@ -41,6 +41,7 @@ async function answerer(ctx) {
  * Checks if given string contains integer value.
  * @param string
  */
-function checkIfNumber(string) {
-  if (!Number.isInteger(Number(string))) throw {code: 400, message: 'This was not a number.'};
+function checkNumber(string) {
+  if (!Number.isInteger(Number(string))) throw { code: 400, message: 'This was not a number.' };
+  if (Number(string) > 9999) throw { code: 400, message: 'Sorry, we only support numbers till 9999.' };
 }
