@@ -4,4 +4,4 @@ module.exports = {
 
 function translateNumber(number) {
   return 'yay';
-};
+}
