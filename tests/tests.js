@@ -101,4 +101,32 @@ describe('TESTS', function () {
     it('sends number 4321 to the server', async () =>
       await numberTester(4321, 'four thousand, three hundred and twenty-one'));
   });
+
+  describe('more criticals: 101, 200, 300, 400, 500, 900, 999, 1000, 1001, 9999', function () {
+    it('sends number 101 to the server', async () => await numberTester(101, 'one hundred and one'));
+    it('sends number 200 to the server', async () => await numberTester(200, 'two hundred'));
+    it('sends number 300 to the server', async () => await numberTester(300, 'three hundred'));
+    it('sends number 400 to the server', async () => await numberTester(400, 'four hundred'));
+    it('sends number 500 to the server', async () => await numberTester(500, 'five hundred'));
+    it('sends number 600 to the server', async () => await numberTester(600, 'six hundred'));
+    it('sends number 700 to the server', async () => await numberTester(700, 'seven hundred'));
+    it('sends number 800 to the server', async () => await numberTester(800, 'eight hundred'));
+    it('sends number 900 to the server', async () => await numberTester(900, 'nine hundred'));
+    it('sends number 999 to the server', async () => await numberTester(999, 'nine hundred and ninety-nine'));
+    it('sends number 1000 to the server', async () => await numberTester(1000, 'one thousand'));
+    it('sends number 1001 to the server', async () => await numberTester(1001, 'one thousand and one'));
+    it('sends number 9999 to the server', async () =>
+      await numberTester(9999, 'nine thousand, nine hundred and ninety-nine'));
+  });
+
+  describe('negative test', function () {
+    it('checks wether the response is good, if a string has been sent', async () => {
+      const { body: { message } } = await request
+        .get('/translate/not_a_number')
+        .expect('Content-Type', /json/)
+        .expect(400);
+
+      message.should.be.eql('This was not a number.');
+    });
+  });
 });

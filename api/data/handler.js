@@ -77,6 +77,7 @@ function baseTranslationLogic(string) {
 
   for (let i = string.length - 3; i >= 0; i--) {
     const num = Number(string[i]);
+    if (num === 0) continue;
     const distance = (string.length - 3) - i;
     output = numberTranslations[num] + ' ' + postFixes[distance] + (output === '' ? ' ' : ', ') + output;
   }
