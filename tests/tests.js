@@ -137,5 +137,14 @@ describe('TESTS', function () {
 
       message.should.be.eql('Sorry, we only support numbers till 9999.');
     });
+
+    it('checks for too small number', async () => {
+      const { body: { message } } = await request
+        .get('/translate/-50')
+        .expect('Content-Type', /json/)
+        .expect(400);
+
+      message.should.be.eql('Sorry, we only support numbers greater than 0.');
+    });
   });
 });

@@ -44,4 +44,5 @@ async function answerer(ctx) {
 function checkNumber(string) {
   if (!Number.isInteger(Number(string))) throw { code: 400, message: 'This was not a number.' };
   if (Number(string) > 9999) throw { code: 400, message: 'Sorry, we only support numbers till 9999.' };
+  if (Number(string) < 0) throw { code: 400, message: 'Sorry, we only support numbers greater than 0.' };
 }
