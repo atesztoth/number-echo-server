@@ -4,7 +4,8 @@ const utils = require('../utils/utils');
 
 module.exports = {
   answerer: answerer,
-  sayHello: sayHello
+  sayHello: sayHello,
+  infoResponse: infoResponse
 };
 
 /**
@@ -15,6 +16,16 @@ module.exports = {
 async function sayHello(ctx) {
   ctx.status = 200;
   ctx.body = { message: 'Hello' };
+}
+
+/**
+ * Alerts the user about a wrongly called endpoint.
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+async function infoResponse(ctx) {
+  ctx.status = 400;
+  ctx.body = utils.createErrorResponse(400, 'You\'ve given no number.');
 }
 
 /**

@@ -23,7 +23,7 @@ describe('TESTS', function () {
 
   after(() => server.close());
 
-  it('tests sayhello', async () => {
+  it('GET /', async () => {
     const { body: { message } } = await request
       .get('/')
       .expect('Content-Type', /json/)
@@ -31,6 +31,16 @@ describe('TESTS', function () {
 
     should.exist(message);
     message.should.be.eql('Hello');
+  });
+
+  it('GET /translate/', async () => {
+    const { body: { message } } = await request
+      .get('/')
+      .expect('Content-Type', /json/)
+      .expect(400);
+
+    should.exist(message);
+    message.should.be.eql('You\'ve given no number.');
   });
 
   describe('0-9', function () {
