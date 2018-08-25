@@ -23,6 +23,6 @@ const specials = {
   50: 'fifty',
 };
 
-const groupNames = ['thousand', 'hundred'];
+const postFixes = ['hundred', 'thousand'];
 
-module.exports = { numberTranslations: numbers, specialNumbers: specials, groupNames: groupNames };
+module.exports = { numberTranslations: numbers, specialNumbers: specials, postFixes: postFixes };

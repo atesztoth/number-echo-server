@@ -72,6 +72,12 @@ describe('TESTS', function () {
     it('sends number 90 to the server', async () => await numberTester(90, 'ninety'));
   });
 
+  describe('more specials', function () {
+    it('sends number 122 to the server', async () => await numberTester(122, 'one hundred and twenty-two'));
+    it('sends number 132 to the server', async () => await numberTester(132, 'one hundred and thirty-two'));
+    it('sends number 152 to the server', async () => await numberTester(152, 'one hundred and fifty-two'));
+  });
+
   describe('other numbers', function () {
     it('sends number 100 to the server', async () => await numberTester(100, 'one hundred'));
     it('sends number 101 to the server', async () => await numberTester(101, 'one hundred and one'));
@@ -83,7 +89,6 @@ describe('TESTS', function () {
     it('sends number 115 to the server', async () => await numberTester(115, 'one hundred and fifteen'));
 
     it('sends number 116 to the server', async () => await numberTester(116, 'one hundred and sixteen'));
-    it('sends number 122 to the server', async () => await numberTester(122, 'one hundred and twenty-two'));
     it('sends number 140 to the server', async () => await numberTester(140, 'one hundred and fourty'));
 
     it('sends number 120 to the server', async () => await numberTester(120, 'one hundred and twenty'));
@@ -94,6 +99,6 @@ describe('TESTS', function () {
     it('sends number 170 to the server', async () => await numberTester(170, 'one hundred and seventy'));
 
     it('sends number 4321 to the server', async () =>
-      await numberTester(170, 'four thousand, three hundred and twenty-one'));
+      await numberTester(4321, 'four thousand, three hundred and twenty-one'));
   });
 });

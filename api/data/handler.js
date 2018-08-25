@@ -34,23 +34,21 @@ function translateNumber(number) {
  */
 function translateSpecial(string) {
   if (string.length !== 2) throw 'Invalid string!';
+  if (string === '00') return ''; // special case
 
   const { specialNumbers, numberTranslations } = translations;
   const asNumber = Number(string);
-
-  if (Object.keys(specialNumbers).includes(string)) return specialNumbers[asNumber];
-
   const firstNumber = string[0];
   const secondNumber = string[1];
 
+  if (firstNumber === '0') return numberTranslations[Number(secondNumber)];
+  if (Object.keys(specialNumbers).includes(string)) return specialNumbers[asNumber];
   if (firstNumber === '1') return numberTranslations[Number(secondNumber)] + 'teen';
 
   const tyTranslation = (numberTranslations[Number(firstNumber)] + 'ty').replace('tt', 't');
-  if (secondNumber === '0') {
-    return tyTranslation;
-  } else {
-    return tyTranslation + '-' + numberTranslations[Number(secondNumber)];
-  }
+  if (secondNumber === '0') return tyTranslation;
+
+  return tyTranslation + '-' + numberTranslations[Number(secondNumber)];
 }
 
 /**
@@ -59,5 +57,17 @@ function translateSpecial(string) {
  * @returns {string}
  */
 function baseTranslationLogic(string) {
-  return 'no no no! git commit first!';
+  const { postFixes, numberTranslations } = translations;
+  let output = '';
+
+  for (let i = string.length - 3; i >= 0; i--) {
+    const num = Number(string[i]);
+    const distance = (string.length - 3) - i;
+    output = numberTranslations[num] + ' ' + postFixes[distance] + (output === '' ? ' ' : ', ') + output;
+  }
+
+  const lastTwo = string.slice(-2);
+  output += lastTwo !== '00' ? 'and ' + translateSpecial(lastTwo) : '';
+
+  return output;
 }
