@@ -25,11 +25,21 @@ async function sayHello(ctx) {
 async function answerer(ctx) {
   try {
     const { params: { number } } = ctx;
+    checkIfNumber(number);
     const result = dataHandler.translateNumber(number);
     ctx.status = 200;
-    ctx.body = { result: 'one' };
+    ctx.body = { result };
   } catch (e) {
-    ctx.status = 500;
-    ctx.body = utils.createErrorResponse(500, e.message);
+    const code = e.code || 500;
+    ctx.status = code;
+    ctx.body = utils.createErrorResponse(code, e.message);
   }
+}
+
+/**
+ * Checks if given string contains integer value.
+ * @param string
+ */
+function checkIfNumber(string) {
+  if (!Number.isInteger(Number(string))) throw {code: 400, message: 'This was not a number.'};
 }
