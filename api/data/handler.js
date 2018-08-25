@@ -40,10 +40,25 @@ function translateSpecial(string) {
   const asNumber = Number(string);
   const firstNumber = string[0];
   const secondNumber = string[1];
+  const specialNumberTranslator = (tenGroup) =>
+    specialNumbers[Number(tenGroup)] + (secondNumber === '0' ? '' : '-' + numberTranslations[Number(secondNumber)]);
 
   if (firstNumber === '0') return numberTranslations[Number(secondNumber)];
+
   if (Object.keys(specialNumbers).includes(string)) return specialNumbers[asNumber];
-  if (firstNumber === '1') return numberTranslations[Number(secondNumber)] + 'teen';
+
+  switch (firstNumber) {
+    case '1':
+      return numberTranslations[Number(secondNumber)] + 'teen';
+    case '2':
+      return specialNumberTranslator(20);
+    case '3':
+      return specialNumberTranslator(30);
+    case '5':
+      return specialNumberTranslator(50);
+    default:
+      break;
+  }
 
   const tyTranslation = (numberTranslations[Number(firstNumber)] + 'ty').replace('tt', 't');
   if (secondNumber === '0') return tyTranslation;
@@ -69,5 +84,5 @@ function baseTranslationLogic(string) {
   const lastTwo = string.slice(-2);
   output += lastTwo !== '00' ? 'and ' + translateSpecial(lastTwo) : '';
 
-  return output;
+  return output.trim();
 }
