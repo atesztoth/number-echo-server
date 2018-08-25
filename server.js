@@ -5,4 +5,5 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 debug('Application is listening on port: ' + PORT);
 console.log('Application is listening on port: ' + PORT);
+
 app.listen(PORT);
