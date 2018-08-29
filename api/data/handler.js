@@ -8,7 +8,8 @@ module.exports = {
 };
 
 const DEFAULTS = {
-  HUNDRED: 'hundred'
+  HUNDRED: 'hundred',
+  AND: 'and'
 };
 
 
@@ -29,7 +30,7 @@ function translateNumber(number) {
       translation = baseTranslationLogic(number);
       break;
     default:
-      translation = magic(number);
+      translation = magic(number).clean();
   }
 
   if (!translation) throw 'Could not translate ' + number;
@@ -77,14 +78,18 @@ function translateSpecial(string) {
 
 /**
  * Translation logic for handling bigger numbers.
- * @param string
+ * @param string string
+ * @param forbidAnd bool
  * @returns {string}
  */
-function baseTranslationLogic(string) {
-  let output = '';
-  output += string.length === 3 ? translateNumber(string[0]) + ' ' + DEFAULTS.HUNDRED : '';
+function baseTranslationLogic(string, forbidAnd) {
   const lastTwo = string.slice(-2);
-  output += lastTwo !== '00' ? ' and ' + translateSpecial(lastTwo) : '';
+  const andWord = !forbidAnd ? ' ' + DEFAULTS.AND + ' ' : '';
+  let output = '';
+
+  output += string.length === 3 && string[0] !== '0'
+    ? translateNumber(string[0]) + ' ' + DEFAULTS.HUNDRED : '';
+  output += lastTwo !== '00' ? andWord + translateSpecial(lastTwo) : '';
 
   return output.trim();
 }
@@ -99,13 +104,14 @@ function baseTranslationLogic(string) {
  * @return string
  */
 function magic(number, currentPosition) {
-  if (!number) return '';
+  if (!number || currentPosition < 0) return '';
   const usablePosition = typeof currentPosition === 'undefined' ? number.length - 1 : currentPosition;
   const { position, result } = magicanAssistant(number, usablePosition);
 
-  if (result === '') return '';
-  const postFix = currentPosition > 3 ? postFixes[currentPosition % 3] : '';
-  return baseTranslationLogic(result) + ' ' + postFix + ' ' + magic(number, position);
+  const postFixPosition = number.length - usablePosition;
+  const postFix = result !== '000' && postFixPosition > 3
+    ? ' ' + postFixes[(Math.floor(postFixPosition / 3)) - 1] + ', ' : '';
+  return magic(number, position) + baseTranslationLogic(result, usablePosition < 3) + postFix;
 }
 
 /**
@@ -114,7 +120,6 @@ function magic(number, currentPosition) {
  * @param position
  */
 function magicanAssistant(number, position) {
-  if (position < 0) return { position: 0, result: '' };
   let result = '';
   let i;
   for (i = position; i >= 0 && i >= position - 2; i--) result += number[i];

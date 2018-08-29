@@ -57,5 +57,5 @@ function checkNumber(string) {
   if (!Number.isInteger(Number(string))) throw { code: 400, message: 'This was not a number.' };
   if (Number(string) < 0) throw { code: 400, message: 'Sorry, we only support numbers greater than 0.' };
   if (string.length > maximumNumber.length) // if it a longer length...
-    throw { code: 400, message: 'Sorry, we only support numbers till ' + maximumNuber + '.' };
+    throw { code: 400, message: 'Sorry, we only support numbers till ' + maximumNumber + '.' };
 }

@@ -23,6 +23,6 @@ const specials = {
   50: 'fifty',
 };
 
-const postFixes = ['thousand', 'million', 'milliad', 'billion', 'billiard', 'trillion'];
+const postFixes = ['thousand', 'million', 'milliard', 'billion', 'billiard', 'trillion'];
 
 module.exports = { numberTranslations: numbers, specialNumbers: specials, postFixes: postFixes };
