@@ -84,11 +84,11 @@ function translateSpecial(string) {
  */
 function baseTranslationLogic(string, forbidAnd) {
   const lastTwo = string.slice(-2);
-  const andWord = !forbidAnd ? ' ' + DEFAULTS.AND + ' ' : '';
+  const andWord = !forbidAnd ? DEFAULTS.AND + ' ' : '';
   let output = '';
 
   output += string.length === 3 && string[0] !== '0'
-    ? translateNumber(string[0]) + ' ' + DEFAULTS.HUNDRED : '';
+    ? translateNumber(string[0]) + ' ' + DEFAULTS.HUNDRED  + ' ' : '';
   output += lastTwo !== '00' ? andWord + translateSpecial(lastTwo) : '';
 
   return output.trim();
@@ -111,7 +111,7 @@ function magic(number, currentPosition) {
   const postFixPosition = number.length - usablePosition;
   const postFix = result !== '000' && postFixPosition > 3
     ? ' ' + postFixes[(Math.floor(postFixPosition / 3)) - 1] + ', ' : '';
-  return magic(number, position) + baseTranslationLogic(result, usablePosition < 3) + postFix;
+  return magic(number, position) + baseTranslationLogic(result, postFixPosition > 3) + postFix;
 }
 
 /**

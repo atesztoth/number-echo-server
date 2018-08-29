@@ -135,27 +135,24 @@ describe('TESTS', function () {
     it('sends number 1.000.001 to the server',
       async () => await numberTester(1000001, 'one million, and one'));
     it('sends number 1.001.000 to the server',
-      async () => await numberTester(1001000, 'one million, and one thousand'));
+      async () => await numberTester(1001000, 'one million, one thousand'));
     it('sends number 1.100.001 to the server',
       async () => await numberTester(1100001, 'one million, one hundred thousand, and one'));
     it('sends number 1.111.111 to the server',
       async () => await numberTester(1111111,
-        'one million, one hundred and eleven thousand, one hundred and eleven'));
+        'one million, one hundred eleven thousand, one hundred and eleven'));
     it('sends number 21.111.111 to the server',
       async () => await numberTester(21111111,
-        'twenty-one million, one hundred and eleven thousand, one hundred and eleven'));
+        'twenty-one million, one hundred eleven thousand, one hundred and eleven'));
     it('sends number 1.000.000.000 to the server',
       async () => await numberTester(1000000000,
         'one milliard'));
     it('sends number 1.000.000.000.000 to the server',
-      async () => await numberTester(1000000000000,
-        'one billion'));
-    it('sends number 1.000.000.000.000.000.000 to the server',
-      async () => await numberTester(1000000000000000000,
-        'one trillion'));
+      async () => await numberTester(100000000000,
+        'one hundred milliard'));
     it('sends number 999.999.999.999 to the server',
       async () => await numberTester(999999999999,
-        'nine hundred ninety-nine milliard, nine hundred and ninety-nine million, nine hundred and ninety-nine thousand, nine hundred and ninety-nine'));
+        'nine hundred ninety-nine milliard, nine hundred ninety-nine million, nine hundred ninety-nine thousand, nine hundred and ninety-nine'));
   });
 
   describe('negative test', function () {
