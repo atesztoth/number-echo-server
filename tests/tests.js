@@ -129,23 +129,21 @@ describe('TESTS', function () {
       await numberTester(9999, 'nine thousand, nine hundred and ninety-nine'));
   });
 
+  describe('big ones', function () {
+    it('sends number 1.000.000 to the server',
+      async () => await numberTester(1000000, 'one million'));
+    it('sends number 1.000.001 to the server',
+      async () => await numberTester(1000000, 'one million and one'));
+  });
+
   describe('negative test', function () {
-    it('checks wether the response is good, if a string has been sent', async () => {
+    it('checks whether the response is good, if a string has been sent', async () => {
       const { body: { message } } = await request
         .get('/translate/not_a_number')
         .expect('Content-Type', /json/)
         .expect(400);
 
       message.should.be.eql('This was not a number.');
-    });
-
-    it('checks for too big number', async () => {
-      const { body: { message } } = await request
-        .get('/translate/10000')
-        .expect('Content-Type', /json/)
-        .expect(400);
-
-      message.should.be.eql('Sorry, we only support numbers till 9999.');
     });
 
     it('checks for too small number', async () => {
