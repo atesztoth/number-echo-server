@@ -35,7 +35,7 @@ describe('TESTS', function () {
 
   it('GET /translate/', async () => {
     const { body: { message } } = await request
-      .get('/')
+      .get('/translate/')
       .expect('Content-Type', /json/)
       .expect(400);
 
