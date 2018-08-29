@@ -40,7 +40,7 @@ function translateSpecial(string) {
   const asNumber = Number(string);
   const firstNumber = string[0];
   const secondNumber = string[1];
-  const specialNumberTranslator = (tenGroup) =>
+  const specialNumberTranslator = tenGroup =>
     specialNumbers[Number(tenGroup)] + (secondNumber === '0' ? '' : '-' + numberTranslations[Number(secondNumber)]);
 
   if (firstNumber === '0') return numberTranslations[Number(secondNumber)];
