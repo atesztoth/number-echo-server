@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: Number Echo Server
+baseUri: https://number-echo-server.herokuapp.com/
+version: v1
+
+/translate/{number}:
+  get:
+    description: Translates given number to string.
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              { "result": "one hundred" }

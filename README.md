@@ -11,3 +11,8 @@ Clone, run npm install.
 
 If you wish to use the example client, ought you run an npm i 
 in the "EXAMPLE_CLIENT" directory too.
+
+## Endpoints
+
+- GET /number/{number}
+  - number: the number you would like to have echoed back (eg. 100)

@@ -1,6 +1,7 @@
 const debug = require('debug')('app:controller:main');
 const dataHandler = require('../data/handler');
 const utils = require('../utils/utils');
+const fs = require('fs');
 
 module.exports = {
   answerer: answerer,
@@ -15,7 +16,9 @@ module.exports = {
  */
 async function sayHello(ctx) {
   ctx.status = 200;
-  ctx.body = { message: 'Hello' };
+  ctx.headers['Content-Type'] = 'text/html; charset=utf-8';
+  const content = fs.readFileSync(`${__dirname}/../info/api-description.html`, 'utf-16le');
+  ctx.body = content.toString();
 }
 
 /**

@@ -24,18 +24,15 @@ describe('TESTS', function () {
   after(() => server.close());
 
   it('GET /', async () => {
-    const { body: { message } } = await request
+    await request
       .get('/')
-      .expect('Content-Type', /json/)
+      .expect('Content-Type', 'text/html; charset=utf-8')
       .expect(200);
-
-    should.exist(message);
-    message.should.be.eql('Hello');
   });
 
   it('GET /translate/', async () => {
     const { body: { message } } = await request
-      .get('/')
+      .get('/translate/')
       .expect('Content-Type', /json/)
       .expect(400);
 
