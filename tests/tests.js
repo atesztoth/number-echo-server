@@ -121,13 +121,39 @@ describe('TESTS', function () {
     it('sends number 900 to the server', async () => await numberTester(900, 'nine hundred'));
     it('sends number 999 to the server', async () => await numberTester(999, 'nine hundred and ninety-nine'));
     it('sends number 1000 to the server', async () => await numberTester(1000, 'one thousand'));
-    it('sends number 1001 to the server', async () => await numberTester(1001, 'one thousand and one'));
+    it('sends number 1001 to the server', async () => await numberTester(1001, 'one thousand, and one'));
     it('sends number 9999 to the server', async () =>
       await numberTester(9999, 'nine thousand, nine hundred and ninety-nine'));
   });
 
+  describe('big ones', function () {
+    it('sends number 1.000.000 to the server',
+      async () => await numberTester(1000000, 'one million'));
+    it('sends number 1.000.001 to the server',
+      async () => await numberTester(1000001, 'one million, and one'));
+    it('sends number 1.001.000 to the server',
+      async () => await numberTester(1001000, 'one million, one thousand'));
+    it('sends number 1.100.001 to the server',
+      async () => await numberTester(1100001, 'one million, one hundred thousand, and one'));
+    it('sends number 1.111.111 to the server',
+      async () => await numberTester(1111111,
+        'one million, one hundred eleven thousand, one hundred and eleven'));
+    it('sends number 21.111.111 to the server',
+      async () => await numberTester(21111111,
+        'twenty-one million, one hundred eleven thousand, one hundred and eleven'));
+    it('sends number 1.000.000.000 to the server',
+      async () => await numberTester(1000000000,
+        'one milliard'));
+    it('sends number 1.000.000.000.000 to the server',
+      async () => await numberTester(100000000000,
+        'one hundred milliard'));
+    it('sends number 999.999.999.999 to the server',
+      async () => await numberTester(999999999999,
+        'nine hundred ninety-nine milliard, nine hundred ninety-nine million, nine hundred ninety-nine thousand, nine hundred and ninety-nine'));
+  });
+
   describe('negative test', function () {
-    it('checks wether the response is good, if a string has been sent', async () => {
+    it('checks whether the response is good, if a string has been sent', async () => {
       const { body: { message } } = await request
         .get('/translate/not_a_number')
         .expect('Content-Type', /json/)
@@ -136,13 +162,13 @@ describe('TESTS', function () {
       message.should.be.eql('This was not a number.');
     });
 
-    it('checks for too big number', async () => {
+    it('checks whether the given number is too big', async () => {
       const { body: { message } } = await request
-        .get('/translate/10000')
+        .get('/translate/9999999999999')
         .expect('Content-Type', /json/)
         .expect(400);
 
-      message.should.be.eql('Sorry, we only support numbers till 9999.');
+      message.should.be.eql('Sorry, we only support numbers till 999999999999.');
     });
 
     it('checks for too small number', async () => {

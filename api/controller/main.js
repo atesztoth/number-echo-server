@@ -45,9 +45,9 @@ async function answerer(ctx) {
     ctx.body = { result };
   } catch (e) {
     debug(e);
-    const code = e.code || 500;
-    ctx.status = code;
-    ctx.body = utils.createErrorResponse(code, e.message);
+    const { code, message } = e;
+    ctx.status = code || 500;
+    ctx.body = utils.createErrorResponse(code || 500, message);
   }
 }
 
@@ -56,7 +56,9 @@ async function answerer(ctx) {
  * @param string
  */
 function checkNumber(string) {
+  const { maximumNumber } = dataHandler;
   if (!Number.isInteger(Number(string))) throw { code: 400, message: 'This was not a number.' };
-  if (Number(string) > 9999) throw { code: 400, message: 'Sorry, we only support numbers till 9999.' };
   if (Number(string) < 0) throw { code: 400, message: 'Sorry, we only support numbers greater than 0.' };
+  if (string.length > maximumNumber.length) // if it a longer length...
+    throw { code: 400, message: 'Sorry, we only support numbers till ' + maximumNumber + '.' };
 }

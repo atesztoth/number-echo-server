@@ -1,7 +1,15 @@
+require('../utils/stringUtils');
 const translations = require('./translations');
+const { postFixes } = translations;
 
 module.exports = {
-  translateNumber: translateNumber
+  translateNumber: translateNumber,
+  maximumNumber: "999999999999"
+};
+
+const DEFAULTS = {
+  HUNDRED: 'hundred',
+  AND: 'and'
 };
 
 
@@ -15,13 +23,14 @@ function translateNumber(number) {
   let translation;
   switch (length) {
     case 1:
-      translation = translations.numberTranslations[Number(number)];
-      break;
     case 2:
       translation = translateSpecial(number);
       break;
-    default:
+    case 3:
       translation = baseTranslationLogic(number);
+      break;
+    default:
+      translation = magic(number).clean();
   }
 
   if (!translation) throw 'Could not translate ' + number;
@@ -33,6 +42,7 @@ function translateNumber(number) {
  * @param string
  */
 function translateSpecial(string) {
+  if (string.length === 1) return translations.numberTranslations[Number(string)];
   if (string.length !== 2) throw 'Invalid string!';
   if (string === '00') return ''; // special case
 
@@ -40,7 +50,7 @@ function translateSpecial(string) {
   const asNumber = Number(string);
   const firstNumber = string[0];
   const secondNumber = string[1];
-  const specialNumberTranslator = (tenGroup) =>
+  const specialNumberTranslator = tenGroup =>
     specialNumbers[Number(tenGroup)] + (secondNumber === '0' ? '' : '-' + numberTranslations[Number(secondNumber)]);
 
   if (firstNumber === '0') return numberTranslations[Number(secondNumber)];
@@ -68,22 +78,50 @@ function translateSpecial(string) {
 
 /**
  * Translation logic for handling bigger numbers.
- * @param string
+ * @param string string
+ * @param forbidAnd bool
  * @returns {string}
  */
-function baseTranslationLogic(string) {
-  const { postFixes, numberTranslations } = translations;
+function baseTranslationLogic(string, forbidAnd) {
+  const lastTwo = string.slice(-2);
+  const andWord = !forbidAnd ? DEFAULTS.AND + ' ' : '';
   let output = '';
 
-  for (let i = string.length - 3; i >= 0; i--) {
-    const num = Number(string[i]);
-    if (num === 0) continue;
-    const distance = (string.length - 3) - i;
-    output = numberTranslations[num] + ' ' + postFixes[distance] + (output === '' ? ' ' : ', ') + output;
-  }
-
-  const lastTwo = string.slice(-2);
-  output += lastTwo !== '00' ? 'and ' + translateSpecial(lastTwo) : '';
+  output += string.length === 3 && string[0] !== '0'
+    ? translateNumber(string[0]) + ' ' + DEFAULTS.HUNDRED  + ' ' : '';
+  output += lastTwo !== '00' ? andWord + translateSpecial(lastTwo) : '';
 
   return output.trim();
+}
+
+// Lets get a bit tricky.
+/**
+ * Does the magic.
+ * Fortunately these bigger numbers "behave", so above the hundreds,
+ * we are all cool. Lets use some recursion for this.
+ * @param number
+ * @param currentPosition
+ * @return string
+ */
+function magic(number, currentPosition) {
+  if (!number || currentPosition < 0) return '';
+  const usablePosition = typeof currentPosition === 'undefined' ? number.length - 1 : currentPosition;
+  const { position, result } = magicanAssistant(number, usablePosition);
+
+  const postFixPosition = number.length - usablePosition;
+  const postFix = result !== '000' && postFixPosition > 3
+    ? ' ' + postFixes[(Math.floor(postFixPosition / 3)) - 1] + ', ' : '';
+  return magic(number, position) + baseTranslationLogic(result, postFixPosition > 3) + postFix;
+}
+
+/**
+ * Returns a substring based on the position and
+ * @param number
+ * @param position
+ */
+function magicanAssistant(number, position) {
+  let result = '';
+  let i;
+  for (i = position; i >= 0 && i >= position - 2; i--) result += number[i];
+  return { position: i, result: result.reverse() };
 }
