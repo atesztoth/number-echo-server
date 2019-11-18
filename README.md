@@ -2,6 +2,8 @@
 
 A little server that echoes the number back you've sent to it via a request.
 
+[Try here](http://number-echo-server.herokuapp.com/)
+
 ## Details
 
 Can be used with any client, an example one is attached, that is made in react.
